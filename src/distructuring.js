@@ -9,7 +9,7 @@ let [low, mid, [high, higher]] = scores;
 console.log(low, mid, high, higher);
  */
 
-function computedScore([low, mid]) {
+/* function computedScore([low, mid]) {
     console.log(low, mid);
 }
 
@@ -34,4 +34,6 @@ let no = 'No';
 
 console.log(`Yes is ${yes}`);
 console.log(`No is ${no}`);
-console.log(`o_O`);
+console.log(`o_O`); */
+
+
