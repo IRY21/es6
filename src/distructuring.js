@@ -37,3 +37,40 @@ console.log(`No is ${no}`);
 console.log(`o_O`); */
 
 
+
+/--------Start---distructuringObject--------------------/
+
+let user = {
+    firstname: 'John', 
+    lastname: 'Doe',
+    social: {
+        facebook: 'johndoe',
+        twitter: 'jdoe'
+    }
+};
+
+/* let {firstname: first, lastname: last, age = 25} = {firstname: 'John', lastname: 'Doe'};
+console.log(first, last, age); */
+
+let {firstname: first, lastname: last, social: { facebook: fb }, age = 25} = user;
+console.log(first, last, fb, age);
+
+function post(url, {data: { firstname, lastname }, cache}) {
+    console.log(firstname, lastname, cache);
+}
+let result = post('api/user', { data: user, cache: false});
+
+function getUserInfo() {
+    return {
+        firstname: 'John', 
+        lastname: 'Doe',
+        social: {
+            facebook: 'johndoe',
+            twitter: 'jdoe'
+        }
+    }
+}
+
+let { firstname, lastnamem, social: { twitter }} = getUserInfo();
+
+console.log(firstname, lastnamem, twitter);

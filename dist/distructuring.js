@@ -1,3 +1,5 @@
+"use strict";
+
 /* let [js, php, py, rb] = ['JS', 'PHP', 'Puthon', 'Ruby'];
 
 console.log(js, php, py, rb);
@@ -35,4 +37,52 @@ let no = 'No';
 console.log(`Yes is ${yes}`);
 console.log(`No is ${no}`);
 console.log(`o_O`); */
-"use strict";
+/--------Start---distructuringObject--------------------/;
+var user = {
+  firstname: 'John',
+  lastname: 'Doe',
+  social: {
+    facebook: 'johndoe',
+    twitter: 'jdoe'
+  }
+};
+/* let {firstname: first, lastname: last, age = 25} = {firstname: 'John', lastname: 'Doe'};
+console.log(first, last, age); */
+
+var first = user.firstname,
+    last = user.lastname,
+    fb = user.social.facebook,
+    _user$age = user.age,
+    age = _user$age === void 0 ? 25 : _user$age;
+console.log(first, last, fb, age);
+
+function post(url, _ref) {
+  var _ref$data = _ref.data,
+      firstname = _ref$data.firstname,
+      lastname = _ref$data.lastname,
+      cache = _ref.cache;
+  console.log(firstname, lastname, cache);
+}
+
+var result = post('api/user', {
+  data: user,
+  cache: false
+});
+
+function getUserInfo() {
+  return {
+    firstname: 'John',
+    lastname: 'Doe',
+    social: {
+      facebook: 'johndoe',
+      twitter: 'jdoe'
+    }
+  };
+}
+
+var _getUserInfo = getUserInfo(),
+    firstname = _getUserInfo.firstname,
+    lastnamem = _getUserInfo.lastnamem,
+    twitter = _getUserInfo.social.twitter;
+
+console.log(firstname, lastnamem, twitter);
