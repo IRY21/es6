@@ -1,63 +1,81 @@
-function applyForVacation(document){
-    console.log('Обработка заявления...');
+let movieList = document.getElementById('movies');
 
-    let promise = new Promise(function(resolve, reject) {
-        setTimeout(function() {
-            let visa = {};
-            Math.random() > 0 ? resolve(visa) : reject('В визе отказано: не хватило документов');
-        }, 2000);
-    });
-    return promise;
+function addMovieToList(movie) {
+    let img = document.createElement('img');
+    img.src = movie.Poster;
+    movieList.appendChild(img);
 }
 
-function getVisa(visa) {
-    console.info('Виза получена');
+function getData(url, done) {
     return new Promise(function(resolve, reject) {
-        setTimeout(() => resolve(visa), 2000);
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', url);
+        xhr.onload = function() {
+            if(xhr.status === 200) {
+                let json = JSON.parse(xhr.response);
+                //console.log(json);
+                //done(json.Search);
+                resolve(json.Search);
+            } else {
+                //console.error(xhr.statusText);
+                reject(xhr.statusText);
+            }
+        };
+    
+        xhr.onerror = function(error) {
+            //console.error(error);
+            reject(error);
+        }
+    
+        xhr.send();
     });
 }
 
-function bookHotel(visa) {
-    console.log(visa);
-    console.log('Бронируем отель');
-    return Promise.resolve(visa);
-}
+const apikey = 'aed59106';
+let batman = getData(`http://www.omdbapi.com/?apikey=${apikey}&s=batman`);
+let superman = getData(`http://www.omdbapi.com/?apikey=${apikey}&s=superman`);
 
-function buyTickets(booking) {
-    console.log('Покупаем билеты');
-    console.log('Бронь', booking);
-}
+/* batman
+    .then(movies => {
+        movies.forEach(movie => addMovieToList(movie));
+    })
+    .catch(error => console.error(error));
 
-applyForVacation({})
-    .then(getVisa)
-    .then(bookHotel)
-    .then(buyTickets)
+superman
+    .then(movies => {
+        movies.forEach(movie => addMovieToList(movie));
+    })
+    .catch(error => console.error(error)); */
+
+Promise.race([batman, superman])
+    .then(movies => {
+        movies.forEach(movie => addMovieToList(movie));
+    })
     .catch(error => console.error(error));
 
 
-/* applyForVacation(   // Callback Hell
-    {}, 
-    function(visa) {
-        console.info('Виза получена');
-        bookHotel(
-            visa, 
-            function(reservation) {
-                buyTickets(
-                    reservation,
-                    function(ticket) {
 
-                    },
-                    function(error) {
+/* function go(num) { // go
+    return new Promise(function(resolve, reject) {
+        let delay = Math.ceil(Math.random() * 3000);
+        console.log(num, delay);
+        setTimeout(() => {
+            if(delay > 2000) reject(num);
+            else resolve(num);
+        }, delay);
+    });
+}
 
-                    }
-                    );
-            },
-            function(error) {
+let p1 = go(1);
+let p2 = go(2);
+let p3 = go(3);
 
-            }
-        );
-    },
-    function(reason) {
-        console.error(reason);
-    }
-); */
+Promise.race([p1, p2, p3])
+    .then(val => console.log(val))
+    .catch(error => console.error(error)); */
+
+/* getData(`http://www.omdbapi.com/?apikey=${apikey}&s=${search}`, function(movies) { //start
+    movies.forEach(function(movie) {
+        addMovieToList(movie);
+    });
+}); */
